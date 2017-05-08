@@ -1,12 +1,17 @@
 package TritonWebReg.dao;
 
-import java.sql.*;
+import javax.naming.Context;
+import javax.naming.InitialContext;
+import javax.sql.DataSource;
+import java.sql.Connection;
 
 /**
  * Created by Saath_Ashish on 5/8/2017.
  */
 public class ConnectionManager {
     private static final String INIT_LOOOKUP = "java:comp/env";
+    private static final String DB_LOOKUP = "jdbc/sqlserver";
+
     public static Connection conn = null;
 
     /**

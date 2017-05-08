@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<Context>
+    <Resource name="jdbc/sqlserver"
+              auth="Container"
+              type="javax.sql.DataSource"
+              username="sa"
+              password="logme"
+              driverClassName="com.microsoft.sqlserver.SQLserverDriver"
+              url="jdbc:sqlserver://localhost:1433;databaseName=cse132b"
+              maxActive="8" />
+</Context>
