@@ -11,6 +11,9 @@
     <title>$Title$</title>
   </head>
   <body>
-  $END$
+  <p>Build Suggessful.. Tomcat running</p>
+  <%
+    System.out.println("Console message after tomcat.!! Success");
+  %>
   </body>
 </html>
