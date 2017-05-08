@@ -20,6 +20,5 @@
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="library" scope="PROVIDED" name="apache-tomcat-6.0" level="project" />
-    <orderEntry type="library" name="adaptive" level="project" />
   </component>
 </module>
