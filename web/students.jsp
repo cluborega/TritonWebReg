@@ -81,7 +81,7 @@
                     // UPDATE the student attributes in the Student table.
                     PreparedStatement pstmt = conn.prepareStatement(
                             "UPDATE Student SET ID = ?, FIRSTNAME = ?, " +
-                                    "MIDDLENAME = ?, LASTNAME = ?, RESIDENCY = ?"+
+                                    "MIDDLENAME = ?, LASTNAME = ?, RESIDENCY = ?,"+
                                      "STATUS = ?, ENROLL = ? WHERE SSN = ?");
 
                     pstmt.setString(1, request.getParameter("ID"));
@@ -89,11 +89,10 @@
                     pstmt.setString(3, request.getParameter("MIDDLENAME"));
                     pstmt.setString(4, request.getParameter("LASTNAME"));
                     pstmt.setString(5, request.getParameter("RESIDENCY"));
-                    pstmt.setInt(
-                            8, Integer.parseInt(request.getParameter("SSN")));
-
                     pstmt.setString(6, request.getParameter("STATUS"));
                     pstmt.setString(7, request.getParameter("ENROLL"));
+                    pstmt.setInt(
+                            8, Integer.parseInt(request.getParameter("SSN")));
                     int rowCount = pstmt.executeUpdate();
 
                     // Commit transaction
