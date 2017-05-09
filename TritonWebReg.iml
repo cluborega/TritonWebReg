@@ -19,6 +19,7 @@
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
-    <orderEntry type="library" scope="PROVIDED" name="apache-tomcat-6.0" level="project" />
+    <orderEntry type="library" name="sqljdbc42" level="project" />
+    <orderEntry type="library" scope="PROVIDED" name="Tomcat 6.0.53" level="application_server_libraries" />
   </component>
 </module>
