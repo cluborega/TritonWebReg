@@ -132,7 +132,7 @@
                     <th colspan="2">Action</th>
                 </tr>
                 <tr>
-                    <form action="course-enrollment.jsp" method="post">
+                    <form action="course-entry.jsp" method="post">
                         <input type="hidden" value="insert" name="action">
                         <td><input value="" name="DEPARTMENT" size="10" required></td>
                         <td><input value="" name="COURSENUMBER" size="10" required></td>
