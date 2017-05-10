@@ -139,6 +139,8 @@
                     </tr>
                     <%
                         } //END WHILE LOOP FOR VIEW
+                        rs.close();
+                        conn.close();
                     %>
                 </table>
         </td>
