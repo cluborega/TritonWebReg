@@ -20,8 +20,9 @@
             <jsp:include page="menu.html" />
 
         </td>
-        <td>
-
+        <td valign="top">
+            <h3>Students List</h3>
+            <p>Note: Please select from the Student Entry Menu on the left for Entry forms</p>
             <%-- Set the scripting language to Java and --%>
             <%-- Import the java.sql package --%>
             <%@ page language="java" import="java.sql.*" %>
