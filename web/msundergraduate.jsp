@@ -19,8 +19,9 @@
             <jsp:include page="menu.html" />
 
         </td>
-        <td>
-
+        <td valign="top">
+            <h3>MS Undergraduate List</h3>
+            <p>Note:Insert new MS/BS student.</p>
             <%-- Set the scripting language to Java and --%>
             <%-- Import the java.sql package --%>
             <%@ page language="java" import="java.sql.*" %>
@@ -130,7 +131,7 @@
                     <form action="msundergraduate.jsp" method="get">
                         <input type="hidden" value="insert" name="action">
                         <th><input value="" name="ID" size="10"></th>
-                        <th><input value="" name="SSN" size="10"></th>
+                        <th><input value="" name="SSN" size="10" readonly></th>
                         <th><input value="" name="FIRSTNAME" size="15"></th>
                         <th><input value="" name="MIDDLENAME" size="15"></th>
                         <th><input value="" name="LASTNAME" size="15"></th>
@@ -166,7 +167,7 @@
                         <%-- Get the SSN, which is a number --%>
                         <td>
                             <input value="<%= rs.getString("SSN") %>"
-                                   name="SSN" size="10">
+                                   name="SSN" size="10" readonly>
                         </td>
 
                         <%-- Get the FIRSTNAME --%>

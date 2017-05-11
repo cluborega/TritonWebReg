@@ -21,8 +21,9 @@
             <jsp:include page="menu.html" />
 
         </td>
-        <td>
-
+        <td valign="top">
+            <h3>Review Session Entry</h3>
+            <p>Note:</p>
             <%-- Set the scripting language to Java and --%>
             <%-- Import the java.sql package --%>
             <%@ page language="java" import="java.sql.*" %>

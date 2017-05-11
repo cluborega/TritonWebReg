@@ -20,8 +20,9 @@
             <jsp:include page="menu.html" />
 
         </td>
-        <td>
-
+        <td valign="top">
+            <h3>PhD Pre-Candidate List</h3>
+            <p>Note:Insert new phd pre-candidate.</p>
             <%-- Set the scripting language to Java and --%>
             <%-- Import the java.sql package --%>
             <%@ page language="java" import="java.sql.*" %>
@@ -145,7 +146,7 @@
                         <th><input value="PHD" name="TYPE" size="15" readonly></th>
                         <th><input value="" name="MAJOR" size="15"></th>
                         <th><input value="" name="DEPARTMENT" size="15"></th>
-                        <th><input value="Pre-Candiate" name="CANDIDATE_TYPE" size="15" readonly></th>
+                        <th><input value="Pre-Candiate" name="CANDIDATE_TYPE" size="15"></th>
                         <th><input value="" name="ADVISOR" size="15"></th>
                         <th><input type="submit" value="Insert"></th>
                     </form>
@@ -204,13 +205,13 @@
                         <%-- Get the STATUS --%>
                         <td>
                             <input value="<%= rs.getString("STAT") %>"
-                                   name="STATUS" size="15">
+                                   name="STATUS" size="15" readonly>
                         </td>
 
                         <%-- Get the Graduate type --%>
                         <td>
                             <input value="<%= rs.getString("GRADUATE_TYPE") %>"
-                                   name="TYPE" size="15">
+                                   name="TYPE" size="15" readonly>
                         </td>
 
                         <%-- Get the Major --%>

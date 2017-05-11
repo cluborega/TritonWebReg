@@ -14,12 +14,13 @@
 <table border="1">
     <tr>
         <td valign="top">
-            <jsp:include page="studentmenu.html"/>
+
             <jsp:include page="menu.html" />
 
         </td>
-        <td>
-
+        <td valign="top">
+            <h3>Past Classes</h3>
+            <p>Note:insert past classes</p>
             <%@ page language="java" import="java.sql.*" %>
 
             <%-- -------- Open Connection Code -------- --%>

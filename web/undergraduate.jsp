@@ -21,8 +21,9 @@
             <jsp:include page="menu.html" />
 
         </td>
-        <td>
-
+        <td valign="top">
+            <h3>Undergraduate and BS/MS List</h3>
+            <p>Note:Insert new undergraduate </p>
             <%-- Set the scripting language to Java and --%>
             <%-- Import the java.sql package --%>
             <%@ page language="java" import="java.sql.*" %>
@@ -126,7 +127,7 @@
                             <th><input value="" name="MIDDLENAME" size="15"></th>
                             <th><input value="" name="LASTNAME" size="15"></th>
                             <th><input value="" name="RESIDENCY" size="15"></th>
-                            <th><input value="Undergrad" name="STATUS" size="15"></th>
+                            <th><input value="Undergrad" name="STATUS" size="15" readonly></th>
                             <th><input value="" name="COLLEGE" size="15"></th>
                             <th><input value="" name="MAJOR" size="15"></th>
                             <th><input value="" name="MINOR" size="15"></th>
@@ -187,7 +188,7 @@
                             <%-- Get the STATUS --%>
                             <td>
                                 <input value="<%= rs.getString("STAT") %>"
-                                       name="STATUS" size="15">
+                                       name="STATUS" size="15" readonly>
                             </td>
 
                             <%-- Get the College --%>

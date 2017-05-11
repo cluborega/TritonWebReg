@@ -21,7 +21,9 @@
             <jsp:include page="menu.html" />
 
         </td>
-        <td>
+        <td valign="top">
+            <h3>Thesis Committee</h3>
+
 
             <%-- Set the scripting language to Java and --%>
             <%-- Import the java.sql package --%>
