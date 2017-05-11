@@ -56,7 +56,7 @@
 
                         // Create the prepared statement and use it to
                         // INSERT the student attributes INTO the Student table.
-                        PreparedStatement pstmt = conn.prepareStatement(
+                        PreparedStatement pstmt  = conn.prepareStatement(
                                 "INSERT INTO Student(STUDENT_ID,SSN,FIRSTNAME,MIDDLENAME,LASTNAME,RESIDENCY,STAT)" +
                                         " VALUES(?, ?, ?, ?, ?, ?,?)");
 
@@ -74,7 +74,7 @@
                         pstmt = conn.prepareStatement("INSERT INTO UNDERGRADUATE "+
                                 "(UNDERGRADUATE_ID, COLLEGE, MAJOR, MINOR)"+
                                 " VALUES(?,?,?,?)");
-
+                        System.out.println(request.getParameter("ID"));
                         pstmt.setString(1, (request.getParameter("ID")));
                         pstmt.setString(2, (request.getParameter("COLLEGE")));
                         pstmt.setString(3, (request.getParameter("MAJOR")));
@@ -97,14 +97,16 @@
                     // Use the created statement to SELECT
                     // the student attributes FROM the Student table.
                     ResultSet rs = statement.executeQuery
-                            ("SELECT * FROM Student");
+                            ("SELECT SSN,STUDENT_ID ,FIRSTNAME,MIDDLENAME,LASTNAME,"+
+                                    "RESIDENCY,STAT, COLLEGE, MAJOR,MINOR FROM"+
+                                    " Student, UNDERGRADUATE  WHERE STUDENT_ID = UNDERGRADUATE_ID");
                 %>
 
                 <!-- Add an HTML table header row to format the results -->
                 <table border="1">
                     <tr>
-                        <th>SSN</th>
                         <th>ID</th>
+                        <th>SSN</th>
                         <th>First</th>
                         <th>Middle</th>
                         <th>Last</th>
@@ -116,10 +118,10 @@
                         <th>Action</th>
                     </tr>
                     <tr>
-                        <form action="students.jsp" method="get">
+                        <form action="undergraduate.jsp" method="get">
                             <input type="hidden" value="insert" name="action">
-                            <th><input value="" name="SSN" size="10"></th>
                             <th><input value="" name="ID" size="10"></th>
+                            <th><input value="" name="SSN" size="10"></th>
                             <th><input value="" name="FIRSTNAME" size="15"></th>
                             <th><input value="" name="MIDDLENAME" size="15"></th>
                             <th><input value="" name="LASTNAME" size="15"></th>
@@ -141,8 +143,15 @@
                     %>
 
                     <tr>
-                        <form action="students.jsp" method="get">
+                        <form action="undergraduate.jsp" method="get">
                             <input type="hidden" value="update" name="action">
+
+
+                            <%-- Get the ID --%>
+                            <td>
+                                <input value="<%= rs.getString("STUDENT_ID") %>"
+                                       name="ID" size="10">
+                            </td>
 
                             <%-- Get the SSN, which is a number --%>
                             <td>
@@ -150,11 +159,6 @@
                                        name="SSN" size="10">
                             </td>
 
-                            <%-- Get the ID --%>
-                            <td>
-                                <input value="<%= rs.getString("STUDENT_ID") %>"
-                                       name="ID" size="10">
-                            </td>
 
                             <%-- Get the FIRSTNAME --%>
                             <td>
@@ -186,14 +190,31 @@
                                        name="STATUS" size="15">
                             </td>
 
+                            <%-- Get the College --%>
+                            <td>
+                                <input value="<%= rs.getString("COLLEGE") %>"
+                                       name="COLLEGE" size="15">
+                            </td>
 
+                            <%-- Get the Major --%>
+                            <td>
+                                <input value="<%= rs.getString("MAJOR") %>"
+                                       name="MAJOR" size="15">
+                            </td>
+
+
+                            <%-- Get the Minor --%>
+                            <td>
+                                <input value="<%= rs.getString("MINOR") %>"
+                                       name="MINOR" size="15">
+                            </td>
 
                             <%-- Button --%>
                             <td>
                                 <input type="submit" value="Update">
                             </td>
                         </form>
-                        <form action="students.jsp" method="get">
+                        <form action="undergraduate.jsp" method="get">
                             <input type="hidden" value="delete" name="action">
                             <input type="hidden"
                                    value="<%= rs.getInt("SSN") %>" name="SSN">
