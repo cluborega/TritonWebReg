@@ -110,9 +110,9 @@
                         <input type="hidden" value="insert" name="action">
                         <th><input value="" name="CLASS_ID" size="10"></th>
                         <th><input value="" name="SECTION_NUM" size="10"></th>
-                        <th><input value="" name="LOCATION" size="10"</th>
+                        <th><input value="" name="LOCATION" size="10"></th>
                         <th><input type="date" value="" name="REVIEW_DATE" size="10"></th>
-                        <th><input type="time" value="" name="START_TIME" size="10"</th>
+                        <th><input type="time" value="" name="START_TIME" size="10"></th>
                         <th><input type="time" value="" name="END_TIME" size="10"></th>
                         <th><input type="submit" value="Insert"></th>
                     </form>

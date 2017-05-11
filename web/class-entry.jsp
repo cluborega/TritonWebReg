@@ -63,7 +63,7 @@
                         conn.commit();
 
                         pstmtInsert = conn.prepareStatement(
-                                "INSERT INTO CLASSINSTANCE (COURSE_ID, CLASS_ID) VALUES " +
+                                "INSERT INTO COURSE_WITHCLASS (COURSE_ID, CLASS_ID) VALUES " +
                                         "(?, (SELECT CLASS.id FROM CLASS WHERE CLASS_TITLE = ? AND QUARTER = ? AND CLASS_YEAR = ?))");
 
                         pstmtInsert.setInt(1, Integer.parseInt(request.getParameter("CLASS_COURSE_ID")));
