@@ -135,7 +135,7 @@
                         <th><input value="" name="MIDDLENAME" size="15"></th>
                         <th><input value="" name="LASTNAME" size="15"></th>
                         <th><input value="" name="RESIDENCY" size="15"></th>
-                        <th><input value="BS/MS" name="STATUS" size="15"></th>
+                        <th><input value="BS/MS" name="STATUS" size="15" readonly></th>
                         <th><input value="" name="COLLEGE" size="15"></th>
                         <th><input value="" name="MAJOR" size="15"></th>
                         <th><input value="" name="MINOR" size="15"></th>
@@ -196,7 +196,7 @@
                         <%-- Get the STATUS --%>
                         <td>
                             <input value="<%= rs.getString("STAT") %>"
-                                   name="STATUS" size="15">
+                                   name="STATUS" size="15" readonly>
                         </td>
 
                         <%-- Get the College --%>

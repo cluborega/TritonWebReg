@@ -1,22 +1,23 @@
 <%--
   Created by IntelliJ IDEA.
-  User: Bibek Kshetri
+  User: Administrator
   Date: 5/9/2017
-  Time: 10:42 PM
+  Time: 11:07 PM
   To change this template use File | Settings | File Templates.
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
-    <title>Student</title>
+    <title>Thesis Commitee</title>
 </head>
 <body>
+
 
 <table border="1">
     <tr>
         <td valign="top">
             <%-- -------- Include menu HTML code -------- --%>
-            <jsp:include page="studentmenu.html"/>
+
             <jsp:include page="menu.html" />
 
         </td>
@@ -44,6 +45,35 @@
             %>
 
 
+            <%-- -------- INSERT Code -------- --%>
+            <%
+                String action = request.getParameter("action");
+                // Check if an insertion is requested
+                if (action != null && action.equals("insert")) {
+
+                    // Begin transaction
+                    conn.setAutoCommit(false);
+
+                    // Create the prepared statement and use it to
+                    // INSERT the student attributes INTO the Student table.
+                    PreparedStatement pstmt  = conn.prepareStatement(
+                            "INSERT INTO THESISCOMMITTEE(GRADUATE_ID,FACULTY)" +
+                                    " VALUES(?, ?)");
+
+                    pstmt.setString(1, request.getParameter("ID"));
+                    pstmt.setString(2, request.getParameter("FACULTY"));
+                    int rowCount = pstmt.executeUpdate();
+
+
+
+                    // Commit transaction
+                    conn.commit();
+                    conn.setAutoCommit(true);
+                }
+            %>
+
+
+
             <%-- -------- SELECT Statement Code -------- --%>
             <%
                 // Create the statement
@@ -52,19 +82,23 @@
                 // Use the created statement to SELECT
                 // the student attributes FROM the Student table.
                 ResultSet rs = statement.executeQuery
-                        ("SELECT * FROM Student");
+                        ("SELECT * FROM THESISCOMMITTEE");
             %>
 
             <!-- Add an HTML table header row to format the results -->
             <table border="1">
                 <tr>
-                    <th>SSN</th>
-                    <th>ID</th>
-                    <th>First</th>
-                    <th>Middle</th>
-                    <th>Last</th>
-                    <th>Residency</th>
-                    <th>Status</th>
+                    <th>GRADUATE_ID</th>
+                    <th>FACULTY</th>
+                    <th>ACTION</th>
+                </tr>
+                <tr>
+                    <form action="thesiscommitee.jsp" method="get">
+                        <input type="hidden" value="insert" name="action">
+                        <th><input value="" name="ID" size="10"></th>
+                        <th><input value="" name="FACULTY" size="10"></th>
+                        <th><input type="submit" value="Insert"></th>
+                    </form>
                 </tr>
 
                 <%-- -------- Iteration Code -------- --%>
@@ -76,55 +110,35 @@
                 %>
 
                 <tr>
-                    <form action="main_student.jsp" method="get">
+                    <form action="thesiscommitee.jsp" method="get">
                         <input type="hidden" value="update" name="action">
 
-                        <%-- Get the SSN, which is a number --%>
-                        <td>
-                            <input value="<%= rs.getInt("SSN") %>"
-                                   name="SSN" size="10">
-                        </td>
 
                         <%-- Get the ID --%>
                         <td>
-                            <input value="<%= rs.getString("STUDENT_ID") %>"
+                            <input value="<%= rs.getString("GRADUATE_ID") %>"
                                    name="ID" size="10">
                         </td>
 
-                        <%-- Get the FIRSTNAME --%>
+                        <%-- Get the SSN, which is a number --%>
                         <td>
-                            <input value="<%= rs.getString("FIRSTNAME") %>"
-                                   name="FIRSTNAME" size="15">
-                        </td>
-
-                        <%-- Get the LASTNAME --%>
-                        <td>
-                            <input value="<%= rs.getString("MIDDLENAME") %>"
-                                   name="MIDDLENAME" size="15">
-                        </td>
-
-                        <%-- Get the LASTNAME --%>
-                        <td>
-                            <input value="<%= rs.getString("LASTNAME") %>"
-                                   name="LASTNAME" size="15">
-                        </td>
-
-                        <%-- Get the COLLEGE --%>
-                        <td>
-                            <input value="<%= rs.getString("RESIDENCY") %>"
-                                   name="RESIDENCY" size="15">
-                        </td>
-
-                        <%-- Get the STATUS --%>
-                        <td>
-                            <input value="<%= rs.getString("STAT") %>"
-                                   name="STATUS" size="15">
+                            <input value="<%= rs.getString("FACULTY") %>"
+                                   name="FACULTY" size="10">
                         </td>
 
 
                         <%-- Button --%>
                         <td>
                             <input type="submit" value="Update">
+                        </td>
+                    </form>
+                    <form action="thesiscommitee.jsp" method="get">
+                        <input type="hidden" value="delete" name="action">
+                        <input type="hidden"
+                               value="<%= rs.getInt("SSN") %>" name="SSN">
+                        <%-- Button --%>
+                        <td>
+                            <input type="submit" value="Delete">
                         </td>
                     </form>
                 </tr>
@@ -152,6 +166,7 @@
         </td>
     </tr>
 </table>
+
 
 </body>
 </html>

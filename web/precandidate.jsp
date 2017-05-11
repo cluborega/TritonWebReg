@@ -141,11 +141,11 @@
                         <th><input value="" name="MIDDLENAME" size="15"></th>
                         <th><input value="" name="LASTNAME" size="15"></th>
                         <th><input value="" name="RESIDENCY" size="15"></th>
-                        <th><input value="Graduate" name="STATUS" size="15"></th>
-                        <th><input value="PHD" name="TYPE" size="15"></th>
+                        <th><input value="Graduate" name="STATUS" size="15" readonly></th>
+                        <th><input value="PHD" name="TYPE" size="15" readonly></th>
                         <th><input value="" name="MAJOR" size="15"></th>
                         <th><input value="" name="DEPARTMENT" size="15"></th>
-                        <th><input value="Pre-Candiate" name="CANDIDATE_TYPE" size="15"</th>
+                        <th><input value="Pre-Candiate" name="CANDIDATE_TYPE" size="15" readonly></th>
                         <th><input value="" name="ADVISOR" size="15"></th>
                         <th><input type="submit" value="Insert"></th>
                     </form>
