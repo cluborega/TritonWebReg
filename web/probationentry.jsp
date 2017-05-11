@@ -8,7 +8,7 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
-    <title>Thesis Commitee</title>
+    <title>Probation Entry</title>
 </head>
 <body>
 
@@ -57,11 +57,13 @@
                     // Create the prepared statement and use it to
                     // INSERT the student attributes INTO the Student table.
                     PreparedStatement pstmt  = conn.prepareStatement(
-                            "INSERT INTO THESISCOMMITTEE(GRADUATE_ID,FACULTY)" +
-                                    " VALUES(?, ?)");
+                            "INSERT INTO PROBATION(STUDENT_ID,START_DATE,END_DATE,REASON)" +
+                                    " VALUES(?,?,?,?)");
 
                     pstmt.setString(1, request.getParameter("ID"));
-                    pstmt.setString(2, request.getParameter("FACULTY"));
+                    pstmt.setDate(2, java.sql.Date.valueOf(request.getParameter("START_DATE")));
+                    pstmt.setDate(3, java.sql.Date.valueOf(request.getParameter("END_DATE")));
+                    pstmt.setString(4,request.getParameter("REASON"));
                     int rowCount = pstmt.executeUpdate();
 
 
@@ -82,21 +84,24 @@
                 // Use the created statement to SELECT
                 // the student attributes FROM the Student table.
                 ResultSet rs = statement.executeQuery
-                        ("SELECT * FROM THESISCOMMITTEE");
+                        ("SELECT * FROM PROBATION");
             %>
 
             <!-- Add an HTML table header row to format the results -->
             <table border="1">
                 <tr>
-                    <th>GRADUATE_ID</th>
-                    <th>FACULTY</th>
-                    <th>ACTION</th>
+                    <th>ID</th>
+                    <th>START DATE</th>
+                    <th>END DATE</th>
+                    <th>REASON</th>
                 </tr>
                 <tr>
-                    <form action="thesiscommitee.jsp" method="get">
+                    <form action="probationentry.jsp" method="get">
                         <input type="hidden" value="insert" name="action">
                         <th><input value="" name="ID" size="10"></th>
-                        <th><input value="" name="FACULTY" size="10"></th>
+                        <th><input type="date" value="" name="START_DATE" size="10" placeholder="yyyy-mm-dd"></th>
+                        <th><input type="date" value="" name="END_DATE" size="10" placeholder="yyyy-mm-dd"></th>
+                        <th><input value="" name="REASON" size="20"></th>
                         <th><input type="submit" value="Insert"></th>
                     </form>
                 </tr>
@@ -106,23 +111,34 @@
                     // Iterate over the ResultSet
 
                     while ( rs.next() ) {
+
                 %>
 
                 <tr>
-                    <form action="thesiscommitee.jsp" method="get">
+                    <form action="probationentry.jsp" method="get">
                         <input type="hidden" value="update" name="action">
 
 
                         <%-- Get the ID --%>
                         <td>
-                            <input value="<%= rs.getString("GRADUATE_ID") %>"
+                            <input value="<%= rs.getString("STUDENT_ID") %>"
                                    name="ID" size="10">
                         </td>
 
-                        <%-- Get the SSN, which is a number --%>
+                        <%-- Get the Start date --%>
                         <td>
-                            <input value="<%= rs.getString("FACULTY") %>"
-                                   name="FACULTY" size="10">
+                            <input type="date" placeholder="yyyy-mm-dd" value="<%= rs.getString("START_DATE")%>"
+                                   name="START_DATE" size="10">
+                        </td>
+
+                        <td>
+                            <input type="date" placeholder="yyyy-mm-dd" value="<%= rs.getString("END_DATE")%>"
+                                   name="END_DATE" size="10">
+                        </td>
+
+                        <td>
+                            <input value="<%= rs.getString("REASON")%>"
+                                name="REASON" size="20">
                         </td>
 
 
@@ -131,10 +147,10 @@
                             <input type="submit" value="Update">
                         </td>
                     </form>
-                    <form action="thesiscommitee.jsp" method="get">
+                    <form action="probationentry.jsp" method="get">
                         <input type="hidden" value="delete" name="action">
                         <input type="hidden"
-                               value="<%= rs.getString("GRADUATE_ID") %>" name="GRADUATE_ID">
+                               value="<%= rs.getString("STUDENT_ID") %>" name="STUDENT_ID">
                         <%-- Button --%>
                         <td>
                             <input type="submit" value="Delete">
