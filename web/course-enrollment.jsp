@@ -80,29 +80,31 @@
                 Statement statement = conn.createStatement();
                 ResultSet rs = null;
                 try {
-                    rs = statement.executeQuery(" ");  //TODO write query to retrieve enrollment info
+                    rs = statement.executeQuery("SELECT * FROM SECTIONENROLLMENT ");  //TODO write query to retrieve enrollment info
                 } catch (SQLException e) {
                     e.printStackTrace();
                 }
             %>
             <table border="1">
                 <tr>
-                    <th>Quarter</th>
-                    <th>Year</th>
-                    <th>Action</th>
+                    <th>Student Id</th>
+                    <th>Section Id</th>
+                    <th>Units Taking</th>
+                    <th>Grade Option</th>
                 </tr>
                 <tr>
                     <form action="course-enrollment.jsp" method="POST">
-                        <td><select name="CURRENT_QUARTER" required>
-                            <option disabled>Quarter</option>
-                            <option value="Fall">Fall</option>
-                            <option value="Winter" selected>Winter</option>
-                            <option value="Spring">Spring</option>
-                            <option value="Summer">Summer-I</option>
-                            <option value="Summer">Summer-II</option>
+                        <input type="hidden" value="insert" name="action">
+                        <th><input value="" name="STUDENT_ID" size="10"></th>
+                        <th><input value="" name="SECTION_ID" size="10"></th>
+                        <th><input value="" name="UNITS_TAKING" size="10"></th>
+                        <td><select name="GRADE_OPTION" required>
+                            <option disabled selected>Grade Option</option>
+                            <option value="Letter">Letter Grade</option>
+                            <option value="S/U">S/U</option>
+                            <option value="Both">Both</option>
                         </select></td>
-                        <td><input value = "" type="text" name="CURRENT_YEAR" size="10" required></td>
-                        <td><input type="submit" value="Confirm"></td>
+                        <td><input type="submit" value="Insert"></td>
                     </form>
                 </tr>
                 <%

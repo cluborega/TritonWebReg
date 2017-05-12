@@ -11,6 +11,7 @@
     <title>Student's Classes Taken in past</title>
 </head>
 <body>
+
 <table border="1">
     <tr>
         <td valign="top">
@@ -56,7 +57,7 @@
                                 "INSERT INTO CLASSESTAKEN (STUDENT_ID, SECTIONENROLLMENT_ID, grade_received) " +
                                         "VALUES (?, ?, ?)");
                         pstmtInsert.setString(1, request.getParameter("STUDENT_ID"));
-                        pstmtInsert.setInt(2, Integer.parseInt(request.getParameter("SECTION_ID")));
+                        pstmtInsert.setInt(2, Integer.parseInt(request.getParameter("SECTIONENROLLMENT_ID")));
                         pstmtInsert.setString(3, request.getParameter("GRADE_RECEIVED"));
 
                         int rowCount = pstmtInsert.executeUpdate();
@@ -73,15 +74,91 @@
                 }
             %>
 
-            <%
-                Statement statement = conn.createStatement();
-                ResultSet rs = null;
-                try {
-                    rs = statement.executeQuery(" "); //TODO
-                } catch (SQLException e) {
-                    e.printStackTrace();
-                }
-            %>
+
+            <table border="1">
+                <tr>
+                    <th>Student ID</th>
+                    <th>Section Num</th>
+                    <th>Grade Received</th>
+                    <th colspan="2">Action</th>
+                </tr>
+                <tr>
+                    <form action="classes-in-past.jsp" method="post">
+                        <input type="hidden" value="insert" name="action">
+                        <td><input value="" name="STUDENT_ID" size="10" required></td>
+                        <td><input value="" name="SECTIONENROLLMENT_ID" size="10" required></td>
+                        <td><select name="GRADE_RECEIVED" required>
+                                <option disabled selected >Select Grade</option>
+                                <option value="GRADEA+">A+</option>
+                                <option value="GRADEA">A</option>
+                                <option value="GRADEA-">A-</option>
+                                <option value="GRADEB+">B+</option>
+                                <option value="GRADEB">B</option>
+                                <option value="GRADEB-">B-</option>
+                                <option value="GRADEC+">C+</option>
+                                <option value="GRADEC">C</option>
+                                <option value="GRADEC-">C-</option>
+                                <option value="GRADED">D</option>
+                                <option value="GRADEF">F</option>
+                            </select>
+                        </td>
+                        <td><input type="submit" value="Insert"></td>
+                    </form>
+                </tr>
+
+                <%
+                    Statement statement = conn.createStatement();
+                    ResultSet rs = null;
+                    try {
+                        rs = statement.executeQuery("SELECT * FROM CLASSESTAKEN ");  //TODO write query to retrieve enrollment info
+                    } catch (SQLException e) {
+                        System.err.println("Result set exception classes-in-past jsp");
+                        e.printStackTrace();
+                    }
+                %>
+
+
+                <%
+                    while (rs.next()){
+                %>
+
+                <tr>
+                    <form action="classes-in-past.jsp" method="post">
+                        <input type="hidden" value="update" name="action">
+                        <%-- Get the ID --%>
+                        <td>
+                            <input value="<%= rs.getString("STUDENT_ID") %>"
+                                   name="STUDENT_ID" size="10">
+                        </td>
+
+                        <%-- Get the FIRSTNAME --%>
+                        <td>
+                            <input value="<%= rs.getInt("SECTIONENROLLMENT_ID") %>"
+                                   name="SECTIONENROLLMENT_ID" size="10">
+                        </td>
+
+                        <%-- Get the LASTNAME --%>
+                        <td>
+                            <input value="<%= rs.getString("GRADE_RECEIVED") %>"
+                                   name="GRADE_RECEIVED" size="10">
+                        </td>
+                        <td><input type="submit" value="Update"></td>
+                    </form>
+                </tr>
+                <%}%>
+                <%
+                    try {
+                        rs.close();
+                        conn.close();
+                    }
+                    catch (SQLException e){
+                        System.err.println("Exception in course_enrollment.jsp, failed to close conn.");
+                        e.printStackTrace();
+                    }
+                %>
+
+
+            </table>
         </td>
 </table>
 </body>
