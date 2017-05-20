@@ -23,6 +23,7 @@
             <h3>Class-Sections</h3>
             <p>Note:</p>
             <%@ page language="java" import="java.sql.*" %>
+            <%@ page import="javax.swing.plaf.nimbus.State" %>
 
             <%-- -------- Open Connection Code -------- --%>
             <%
@@ -78,9 +79,11 @@
             <%
                 // Create the statement
                 Statement statement = conn.createStatement();
+                Statement getClassStmt = conn.createStatement();
 
                 // Use the created statement to SELECT
                 // the student attributes FROM the Student table.
+                ResultSet classSet = getClassStmt.executeQuery("SELECT id, CLASS_TITLE AS nameOfClass FROM CLASS");
                 ResultSet rs = statement.executeQuery
                         ("SELECT * FROM SECTION");
             %>
@@ -95,7 +98,19 @@
                 <tr>
                     <form action="class-sections.jsp" method="get">
                         <input type="hidden" value="insert" name="action">
-                        <th><input value="" name="CLASS_ID" size="10"></th>
+                        <td><select name="CLASS_ID">
+                            <%
+                                while(classSet.next())
+                                {
+                                    System.out.println(classSet.getString("nameOfClass"));
+                            %>
+                            <option value="<%=classSet.getString("id")%>">
+                                <%=classSet.getString("nameOfClass")%>
+                            </option>
+                            <%
+                                }
+                            %>
+                        </select></td>
                         <th><input value="" name="SECTION_NUM" size="10"></th>
                         <th><input value="" name="SECTION_MAX" size="10"></th>
                         <th><input type="submit" value="Insert"></th>

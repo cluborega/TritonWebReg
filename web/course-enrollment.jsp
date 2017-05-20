@@ -52,10 +52,12 @@
                     }
 
                     try {
-                        conn.setAutoCommit(false);
-                        PreparedStatement pstmtInsert = conn.prepareStatement(
+                        if (conn != null) {
+                            conn.setAutoCommit(false);
+                        }
+                        PreparedStatement pstmtInsert = conn != null ? conn.prepareStatement(
                                 "INSERT INTO SECTIONENROLLMENT (STUDENT_ID, SECTION_ID, UNITS_TAKING, GRADE_OPTION) " +
-                                        "VALUES (?, ?, ?, ?)");
+                                        "VALUES (?, ?, ?, ?)") : null;
 
                         pstmtInsert.setString(1, request.getParameter("STUDENT_ID"));
                         pstmtInsert.setInt(2, Integer.parseInt(request.getParameter("SECTION_ID")));
@@ -63,8 +65,12 @@
                         pstmtInsert.setString(4, request.getParameter("GRADE_OPTION"));
 
                         int rowCount = pstmtInsert.executeUpdate();
-                        conn.commit();
-                        conn.setAutoCommit(true);
+
+                        if (conn != null) {
+                            conn.commit();
+                            conn.setAutoCommit(true);
+                        }
+
                     }
                     catch (SQLException e){
                         e.printStackTrace();
@@ -77,10 +83,20 @@
             %>
 
             <%
-                Statement statement = conn.createStatement();
+                Statement statement = null;
+                if (conn != null) {
+                    try {
+                        statement = conn.createStatement();
+                    } catch (SQLException e) {
+                        e.printStackTrace();
+                    }
+                }
+//                Statement getStudentsStmt = conn.createStatement();
                 ResultSet rs = null;
+                ResultSet studentRset = null;
                 try {
-                    rs = statement.executeQuery("SELECT * FROM SECTIONENROLLMENT ");  //TODO write query to retrieve enrollment info
+//                    studentRset = getStudentsStmt.executeQuery("SELECT STUDENT_ID FROM STUDENT");
+                    rs = statement != null ? statement.executeQuery("SELECT * FROM SECTIONENROLLMENT ") : null;  //TODO write query to retrieve enrollment info
                 } catch (SQLException e) {
                     e.printStackTrace();
                 }
@@ -95,7 +111,26 @@
                 <tr>
                     <form action="course-enrollment.jsp" method="POST">
                         <input type="hidden" value="insert" name="action">
-                        <th><input value="" name="STUDENT_ID" size="10"></th>
+                        <th><select name="STUDENT_ID">
+                            <%
+                                if (rs != null){
+                                    System.out.println("student rset is not null "+ rs.getString("STUDENT_ID"));
+                                while (rs.next()) {
+                            %>
+                            <option><%
+                                try{
+                                    rs.getString("STUDENT_ID");
+                                }
+                                catch(Exception e){
+                                    e.printStackTrace();
+                                }
+                            %></option>
+                            <%
+                                }
+                                }
+                            %>
+                        </select>
+                        </th>
                         <th><input value="" name="SECTION_ID" size="10"></th>
                         <th><input value="" name="UNITS_TAKING" size="10"></th>
                         <td><select name="GRADE_OPTION" required>
@@ -115,6 +150,7 @@
                 </tr>
                 <%
                     try {
+//                        studentRset.close();
                         rs.close();
                         conn.close();
                     }
