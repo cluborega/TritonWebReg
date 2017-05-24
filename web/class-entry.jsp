@@ -20,7 +20,7 @@
         </td>
         <td valign="top">
             <h3>Class Entry</h3>
-            <p>Note:Insert new class info</p>
+            <p>Note:Insert new class info </p>
             <%@ page language="java" import="java.sql.*" %>
 
             <%-- -------- Open Connection Code -------- --%>
