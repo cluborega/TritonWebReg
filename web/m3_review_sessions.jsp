@@ -17,7 +17,7 @@
                 <jsp:include page="menu.html"></jsp:include>
             </td>
             <td valign = 'top'>
-                <h3>Grade Distribution </h3>
+                <h3>Fill out below to see times for review session </h3>
                 <%@ page language="java" import="java.sql.*" %>
                 <%@ page import="java.net.URLEncoder" %>
 
@@ -47,6 +47,19 @@
                         e.printStackTrace();
                     }
                 }
+
+                    Statement stmt = null;
+                    if (conn != null) {
+                        stmt = conn.createStatement();
+                    }
+                    try {
+                        if (stmt != null) {
+                            stmt.executeUpdate("IF OBJECT_ID('dbo.#enrolled_section_times', 'U') IS NOT NULL DROP TABLE CSE132B.dbo.#enrolled_section_times;");
+                            stmt.executeUpdate("IF OBJECT_ID('dbo.#review_session_intervals', 'U') IS NOT NULL DROP TABLE CSE132B.dbo.#review_session_intervals;");
+                        }
+                    } catch (SQLException e) {
+                        e.printStackTrace();
+                    }
                 String start_date = request.getParameter("start_date");
                 String end_date = request.getParameter("end_date");
 
@@ -88,18 +101,6 @@
                 <%
                     } //end of if secNum == null
                     else {
-                        Statement stmt = null;
-                        if (conn != null) {
-                            stmt = conn.createStatement();
-                        }
-                        try {
-                            if (stmt != null) {
-                                stmt.executeUpdate("IF OBJECT_ID('#enrolled_section_times', 'U') IS NOT NULL DROP TABLE #enrolled_section_times;");
-                                stmt.executeUpdate("IF OBJECT_ID('#review_session_intervals', 'U') IS NOT NULL DROP TABLE #review_session_intervals;");
-                            }
-                        } catch (SQLException e) {
-                            e.printStackTrace();
-                        }
 
                         try {
                             //create temporary table to store enrolled times
