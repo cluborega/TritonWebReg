@@ -48,18 +48,6 @@
                     }
                 }
 
-                int course_id = 0;
-                if(request.getParameter("course_id") != null) {
-                    course_id = Integer.parseInt(request.getParameter("course_id"));
-                }
-
-                String faculty_name = request.getParameter("faculty_name");
-
-                int quarter_id = 0;
-                if(request.getParameter("quarter_id") != null) {
-                    quarter_id = Integer.parseInt(request.getParameter("quarter_id"));
-                }
-
                 ResultSet rs = null;
 //                if(request.getParameter("course_id") == null && request.getParameter("faculty_name") == null &&
 //                        request.getParameter("quarter_id") == null) {
@@ -136,7 +124,12 @@
                                 <option selected disabled>Select Quarter</option>
                                 <%
                                     while (rs.next()) {
-                                        String quarterInfo = rs.getString("QUARTER") + " " +rs.getString("YEAR");
+                                        String quarterInfo = null;
+                                        try {
+                                            quarterInfo = rs.getString("QUARTER") + " " +rs.getString("YEAR");
+                                        } catch (SQLException e) {
+                                            e.printStackTrace();
+                                        }
                                 %>
                                 <option value="<%=rs.getInt("id")%>"><%=quarterInfo%></option>
                                 <%

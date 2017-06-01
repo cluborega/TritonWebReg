@@ -431,3 +431,72 @@ INSERT INTO grade_conversion values('C', 2.0);
 INSERT INTO grade_conversion values('C-', 1.7);
 INSERT INTO grade_conversion values('D', 1.0);
 INSERT INTO grade_conversion values('F', 0.0);
+
+DECLARE @i INT = 0;
+WHILE @i < 9
+  BEGIN
+    INSERT INTO MEETINGS(section_id, meeting_type, start_time, end_time, location, required)
+    VALUES(1, 'LECTURE', DATEADD(DAY,7*@i,cast('2017-04-04 10:00:00' as datetime2)) , DATEADD(DAY,7*@i,cast('2017-04-04 11:00:00' as datetime2)), 'LOCATION', '0');
+    INSERT INTO MEETINGS(section_id, meeting_type, start_time, end_time, location, required)
+    VALUES(1, 'LECTURE', DATEADD(DAY,7*@i,cast('2017-04-06 10:00:00' as datetime2)) , DATEADD(DAY,7*@i,cast('2017-04-06 11:00:00' as datetime2)), 'LOCATION', '0');
+    INSERT INTO MEETINGS(section_id, meeting_type, start_time, end_time, location, required)
+    VALUES(1, 'LECTURE', DATEADD(DAY,7*@i,cast('2017-04-08 10:00:00' as datetime2)) , DATEADD(DAY,7*@i,cast('2017-04-08 11:00:00' as datetime2)), 'LOCATION', '0');
+
+    INSERT INTO MEETINGS(section_id, meeting_type, start_time, end_time, location, required)
+    VALUES(2, 'LECTURE', DATEADD(DAY,7*@i,cast('2017-04-04 10:00:00' as datetime2)) , DATEADD(DAY,7*@i,cast('2017-04-04 11:00:00' as datetime2)), 'LOCATION', '0');
+    INSERT INTO MEETINGS(section_id, meeting_type, start_time, end_time, location, required)
+    VALUES(2, 'LECTURE', DATEADD(DAY,7*@i,cast('2017-04-06 10:00:00' as datetime2)) , DATEADD(DAY,7*@i,cast('2017-04-06 11:00:00' as datetime2)), 'LOCATION', '0');
+    INSERT INTO MEETINGS(section_id, meeting_type, start_time, end_time, location, required)
+    VALUES(2, 'LECTURE', DATEADD(DAY,7*@i,cast('2017-04-08 10:00:00' as datetime2)) , DATEADD(DAY,7*@i,cast('2017-04-08 11:00:00' as datetime2)), 'LOCATION', '0');
+
+    INSERT INTO MEETINGS(section_id, meeting_type, start_time, end_time, location, required)
+    VALUES(3, 'LECTURE', DATEADD(DAY,7*@i,cast('2017-04-04 12:00:00' as datetime2)) , DATEADD(DAY,7*@i,cast('2017-04-04 13:00:00' as datetime2)), 'LOCATION', '0');
+    INSERT INTO MEETINGS(section_id, meeting_type, start_time, end_time, location, required)
+    VALUES(3, 'LECTURE', DATEADD(DAY,7*@i,cast('2017-04-06 12:00:00' as datetime2)) , DATEADD(DAY,7*@i,cast('2017-04-06 13:00:00' as datetime2)), 'LOCATION', '0');
+    INSERT INTO MEETINGS(section_id, meeting_type, start_time, end_time, location, required)
+    VALUES(3, 'LECTURE', DATEADD(DAY,7*@i,cast('2017-04-08 12:00:00' as datetime2)) , DATEADD(DAY,7*@i,cast('2017-04-08 13:00:00' as datetime2)), 'LOCATION', '0');
+
+    INSERT INTO MEETINGS(section_id, meeting_type, start_time, end_time, location, required)
+    VALUES(4, 'LECTURE', DATEADD(DAY,7*@i,cast('2017-04-04 12:00:00' as datetime2)) , DATEADD(DAY,7*@i,cast('2017-04-04 13:00:00' as datetime2)), 'LOCATION', '0');
+    INSERT INTO MEETINGS(section_id, meeting_type, start_time, end_time, location, required)
+    VALUES(4, 'LECTURE', DATEADD(DAY,7*@i,cast('2017-04-06 12:00:00' as datetime2)) , DATEADD(DAY,7*@i,cast('2017-04-06 13:00:00' as datetime2)), 'LOCATION', '0');
+    INSERT INTO MEETINGS(section_id, meeting_type, start_time, end_time, location, required)
+    VALUES(4, 'LECTURE', DATEADD(DAY,7*@i,cast('2017-04-08 12:00:00' as datetime2)) , DATEADD(DAY,7*@i,cast('2017-04-08 13:00:00' as datetime2)), 'LOCATION', '0');
+
+    INSERT INTO MEETINGS(section_id, meeting_type, start_time, end_time, location, required)
+    VALUES(5, 'LECTURE', DATEADD(DAY,7*@i,cast('2017-04-04 12:00:00' as datetime2)) , DATEADD(DAY,7*@i,cast('2017-04-04 13:00:00' as datetime2)), 'LOCATION', '0');
+    INSERT INTO MEETINGS(section_id, meeting_type, start_time, end_time, location, required)
+    VALUES(5, 'LECTURE', DATEADD(DAY,7*@i,cast('2017-04-06 12:00:00' as datetime2)) , DATEADD(DAY,7*@i,cast('2017-04-06 13:00:00' as datetime2)), 'LOCATION', '0');
+    INSERT INTO MEETINGS(section_id, meeting_type, start_time, end_time, location, required)
+    VALUES(5, 'LECTURE', DATEADD(DAY,7*@i,cast('2017-04-08 12:00:00' as datetime2)) , DATEADD(DAY,7*@i,cast('2017-04-08 13:00:00' as datetime2)), 'LOCATION', '0');
+
+    INSERT INTO MEETINGS(section_id, meeting_type, start_time, end_time, location, required)
+    VALUES(6, 'LECTURE', DATEADD(DAY,7*@i,cast('2017-04-05 14:00:00' as datetime2)) , DATEADD(DAY,7*@i,cast('2017-04-05 15:00:00' as datetime2)), 'LOCATION', '0');
+    INSERT INTO MEETINGS(section_id, meeting_type, start_time, end_time, location, required)
+    VALUES(6, 'LECTURE', DATEADD(DAY,7*@i,cast('2017-04-07 14:00:00' as datetime2)) , DATEADD(DAY,7*@i,cast('2017-04-07 15:00:00' as datetime2)), 'LOCATION', '0');
+    INSERT INTO MEETINGS(section_id, meeting_type, start_time, end_time, location, required)
+    VALUES(6, 'DISCUSSION', DATEADD(DAY,7*@i,cast('2017-04-08 18:00:00' as datetime2)) , DATEADD(DAY,7*@i,cast('2017-04-08 19:00:00' as datetime2)), 'LOCATION', '0');
+
+    INSERT INTO MEETINGS(section_id, meeting_type, start_time, end_time, location, required)
+    VALUES(7, 'LECTURE', DATEADD(DAY,7*@i,cast('2017-04-05 15:00:00' as datetime2)) , DATEADD(DAY,7*@i,cast('2017-04-05 16:00:00' as datetime2)), 'LOCATION', '0');
+    INSERT INTO MEETINGS(section_id, meeting_type, start_time, end_time, location, required)
+    VALUES(7, 'LECTURE', DATEADD(DAY,7*@i,cast('2017-04-07 15:00:00' as datetime2)) , DATEADD(DAY,7*@i,cast('2017-04-07 16:00:00' as datetime2)), 'LOCATION', '0');
+
+    INSERT INTO MEETINGS(section_id, meeting_type, start_time, end_time, location, required)
+    VALUES(8, 'LECTURE', DATEADD(DAY,7*@i,cast('2017-04-05 15:00:00' as datetime2)) , DATEADD(DAY,7*@i,cast('2017-04-05 16:00:00' as datetime2)), 'LOCATION', '0');
+    INSERT INTO MEETINGS(section_id, meeting_type, start_time, end_time, location, required)
+    VALUES(8, 'LECTURE', DATEADD(DAY,7*@i,cast('2017-04-07 15:00:00' as datetime2)) , DATEADD(DAY,7*@i,cast('2017-04-07 16:00:00' as datetime2)), 'LOCATION', '0');
+
+    INSERT INTO MEETINGS(section_id, meeting_type, start_time, end_time, location, required)
+    VALUES(9, 'LECTURE', DATEADD(DAY,7*@i,cast('2017-04-05 17:00:00' as datetime2)) , DATEADD(DAY,7*@i,cast('2017-04-05 18:00:00' as datetime2)), 'LOCATION', '0');
+    INSERT INTO MEETINGS(section_id, meeting_type, start_time, end_time, location, required)
+    VALUES(9, 'LECTURE', DATEADD(DAY,7*@i,cast('2017-04-07 17:00:00' as datetime2)) , DATEADD(DAY,7*@i,cast('2017-04-07 18:00:00' as datetime2)), 'LOCATION', '0');
+
+    INSERT INTO MEETINGS(section_id, meeting_type, start_time, end_time, location, required)
+    VALUES(10, 'LECTURE', DATEADD(DAY,7*@i,cast('2017-04-05 17:00:00' as datetime2)) , DATEADD(DAY,7*@i,cast('2017-04-05 18:00:00' as datetime2)), 'LOCATION', '0');
+    INSERT INTO MEETINGS(section_id, meeting_type, start_time, end_time, location, required)
+    VALUES(10, 'LECTURE', DATEADD(DAY,7*@i,cast('2017-04-07 17:00:00' as datetime2)) , DATEADD(DAY,7*@i,cast('2017-04-07 18:00:00' as datetime2)), 'LOCATION', '0');
+    INSERT INTO MEETINGS(section_id, meeting_type, start_time, end_time, location, required)
+    VALUES(10, 'DISCUSSION', DATEADD(DAY,7*@i,cast('2017-04-06 19:00:00' as datetime2)) , DATEADD(DAY,7*@i,cast('2017-04-06 20:00:00' as datetime2)), 'LOCATION', '0');
+    SET @i = @i + 1;
+  END
