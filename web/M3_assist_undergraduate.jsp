@@ -28,7 +28,7 @@
                     DriverManager.registerDriver(new com.microsoft.sqlserver.jdbc.SQLServerDriver());
 
                     conn = DriverManager.getConnection
-                            ("jdbc:sqlserver://localhost:1433;databaseName=TEST",
+                            ("jdbc:sqlserver://localhost:1433;databaseName=CSE132B",
                                     "sa", "Firewall1");
                 } catch (SQLException e){
                     e.printStackTrace();
