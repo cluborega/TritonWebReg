@@ -22,7 +22,7 @@
                 <%@ page import="java.net.URLEncoder" %>
 
                 <%-- Open connection with DB --%>
-                    <%
+                <%
                 Connection conn = null;
                 try {
                     DriverManager.registerDriver(new com.microsoft.sqlserver.jdbc.SQLServerDriver());
@@ -33,8 +33,9 @@
                 } catch (SQLException e){
                     e.printStackTrace();
                 }
-            %>
-                    <%
+                %>
+
+                <%
                 if(conn == null){
                     System.out.println("Connection with db not eastablished.");
                 }
@@ -46,6 +47,8 @@
                         e.printStackTrace();
                     }
                 }
+                String start_date = request.getParameter("start_date");
+                String end_date = request.getParameter("end_date");
 
                 ResultSet rs = null;
                 if (request.getParameter("secNum") == null){
@@ -77,8 +80,8 @@
                             }
                         %>
                     </select>
-                    Start:<input type="text" name="start_date" placeholder="yyyy-mm-dd" required>
-                    End:<input type="text" name="end_date" placeholder="yyyy-mm-dd" required>
+                    Start:<input type="text" name="start_date" placeholder="mm/dd/yyyy" required>
+                    End:<input type="text" name="end_date" placeholder="mm/dd/yyyy" required>
                     <input type="submit" value="Submit">
                 </form>
 
@@ -100,13 +103,30 @@
 
                         try {
                             //create temporary table to store enrolled times
-                            stmt.executeUpdate("SELECT DISTINCT LECT_START_TIME AS enrolled_start_time, DATEADD(HH,1,LECT_START_TIME) AS enrolled_end_time\n" +
+                            stmt.executeUpdate("SELECT DISTINCT LECT_DAYS AS enrolled_days,\n" +
+                                    "  STUFF(REPLACE(RIGHT(CONVERT(VARCHAR(19), LECT_START_TIME, 0), 7), ' ', '0'), 6, 0, ' ') AS enrolled_start_time,\n" +
+                                    "  STUFF(REPLACE(RIGHT(CONVERT(VARCHAR(19), DATEADD(HH,1,LECT_START_TIME), 0), 7), ' ', '0'), 6, 0, ' ') AS enrolled_end_time\n" +
                                     "INTO #enrolled_section_times\n" +
                                     "FROM SECTION s\n" +
                                     "WHERE s.id IN (SELECT se.id FROM SECTIONENROLLMENT se) ");
                         } catch (SQLException e) {
                             e.printStackTrace();
                         }
+
+                        stmt.executeUpdate("IF OBJECT_ID('#tempDate','U') IS NOT NULL DROP TABLE #tempDate;\n" +
+                                "IF OBJECT_ID('#available_times','U') IS NOT NULL DROP TABLE #available_times;\n" +
+                                "DECLARE @date_from DATETIME2, @date_to DATETIME2\n" +
+                                "SET @date_from = '"+start_date+"'\n" +
+                                "SET @date_to = '"+end_date+"';\n" +
+                                "WITH #tempDate AS(\n" +
+                                "    SELECT @date_from AS dt\n" +
+                                "    UNION ALL\n" +
+                                "    SELECT DATEADD(HH,1,dt) FROM #tempDate WHERE dt<@date_to)\n" +
+                                "SELECT DATENAME(MONTH,dt) AS month, DATEPART(DAY,dt) AS DayNum, DATENAME(DW,dt) AS Day, STUFF(REPLACE(RIGHT(CONVERT(VARCHAR(19), dt, 0), 7), ' ', '0'), 6, 0, ' ') AS Time\n" +
+                                "INTO #available_times\n" +
+                                "FROM #tempDate;");
+
+//                        rs= statement.executeQuery(" ");
 
                     }
                 %>

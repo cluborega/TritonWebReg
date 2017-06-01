@@ -500,3 +500,15 @@ WHILE @i < 9
     VALUES(10, 'DISCUSSION', DATEADD(DAY,7*@i,cast('2017-04-06 19:00:00' as datetime2)) , DATEADD(DAY,7*@i,cast('2017-04-06 20:00:00' as datetime2)), 'LOCATION', '0');
     SET @i = @i + 1;
   END
+
+-- Inserting quarters in the quarter table
+DECLARE @cnt INT = 2007;
+
+WHILE @cnt < 2018
+  BEGIN
+    INSERT INTO Quarter(quarter, year) VALUES ('WI', @cnt);
+    INSERT INTO Quarter(quarter, year) VALUES ('SP', @cnt);
+    INSERT INTO Quarter(quarter, year) VALUES ('SU', @cnt);
+    INSERT INTO Quarter(quarter, year) VALUES ('FA', @cnt);
+    SET @cnt = @cnt + 1;
+  END;
