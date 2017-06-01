@@ -504,7 +504,7 @@ WHILE @i < 9
 -- Inserting quarters in the quarter table
 DECLARE @cnt INT = 2007;
 
-WHILE @cnt < 2018
+WHILE @cnt < 2019
   BEGIN
     INSERT INTO Quarter(quarter, year) VALUES ('WI', @cnt);
     INSERT INTO Quarter(quarter, year) VALUES ('SP', @cnt);
