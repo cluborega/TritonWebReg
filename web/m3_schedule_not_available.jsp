@@ -54,8 +54,6 @@
                     //Drop temporary tables if they exists
                     try {
                         stmt.executeUpdate("IF OBJECT_ID('#tempClassEnrolled', 'U') IS NOT NULL DROP TABLE #tempClassEnrolled;");
-                        stmt.executeUpdate("IF OBJECT_ID('#tempUnenrolled', 'U') IS NOT NULL DROP TABLE #tempUnenrolled;");
-                        stmt.executeUpdate("IF OBJECT_ID('#tempOverlapping', 'U') IS NOT NULL DROP TABLE #tempOverlapping;");
 
                     } catch (SQLException e) {
                         e.printStackTrace();
@@ -120,8 +118,6 @@
                     //Drop temporary tables if they exists
                     try {
                         stmt.executeUpdate("IF OBJECT_ID('#tempClassEnrolled', 'U') IS NOT NULL DROP TABLE #tempClassEnrolled;");
-                        stmt.executeUpdate("IF OBJECT_ID('#tempUnenrolled', 'U') IS NOT NULL DROP TABLE #tempUnenrolled;");
-                        stmt.executeUpdate("IF OBJECT_ID('#tempOverlapping', 'U') IS NOT NULL DROP TABLE #tempOverlapping;");
                         stmt.close();
 
                     } catch (SQLException e) {
@@ -150,6 +146,5 @@
         </td>
     </tr>
 </table>
-
 </body>
 </html>
