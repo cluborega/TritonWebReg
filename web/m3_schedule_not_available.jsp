@@ -51,7 +51,15 @@
                     }
                     Statement stmt = conn.createStatement();
 
-                    stmt.executeUpdate("IF OBJECT_ID('#tempClassEnrolled', 'U') IS NOT NULL DROP TABLE #tempClassEnrolled;");
+                    //Drop temporary tables if they exists
+                    try {
+                        stmt.executeUpdate("IF OBJECT_ID('#tempClassEnrolled', 'U') IS NOT NULL DROP TABLE #tempClassEnrolled;");
+                        stmt.executeUpdate("IF OBJECT_ID('#tempUnenrolled', 'U') IS NOT NULL DROP TABLE #tempUnenrolled;");
+                        stmt.executeUpdate("IF OBJECT_ID('#tempOverlapping', 'U') IS NOT NULL DROP TABLE #tempOverlapping;");
+
+                    } catch (SQLException e) {
+                        e.printStackTrace();
+                    }
 
                     ResultSet rs = null;
                     if (student_ssn==null) {
@@ -84,51 +92,53 @@
             <%
                 }
                 else {
+                        // getting all the enrolled meetings of SP 2017
+                        stmt.executeUpdate("SELECT co.COURSENUMBER AS courseEnrolled, cl.CLASS_TITLE AS classEnrolled, s.SECTION_NUM AS secEnrolled, m.start_time AS enrolledStartTime,\n" +
+                                "m.end_time AS enrolledEndTime INTO #tempClassEnrolled\n" +
+                                "FROM COURSE co\n" +
+                                "JOIN COURSE_WITHCLASS cwc ON co.id = cwc.COURSE_ID\n" +
+                                "JOIN CLASS cl ON cwc.CLASS_ID = cl.id\n" +
+                                "JOIN SECTION s ON cl.id = s.CLASS_ID\n" +
+                                "JOIN SECTIONENROLLMENT se ON s.id = se.SECTION_ID\n" +
+                                "JOIN STUDENT stu ON se.STUDENT_ID = stu.STUDENT_ID\n" +
+                                "JOIN MEETINGS m ON s.id = m.section_id\n" +
+                                "AND cl.QUARTER = 'SP' AND cl.CLASS_YEAR = '2017'\n" +
+                                "WHERE stu.SSN ="+ student_ssn);
 
-                        stmt.executeUpdate("create table #tempClassEnrolled  -- create temporry table to insert required data\n" +
-                                "(\n" +
-                                " stu_ssn int not null,\n" +
-                                " class_id int not null,\n" +
-                                " course_id int not null,\n" +
-                                "  section_num int not null,\n" +
-                                "  lec_day VARCHAR(10) not null,\n" +
-                                "  lec_time VARCHAR(10) not null,\n" +
-                                "  di_day VARCHAR(10),\n" +
-                                "  di_time VARCHAR(10)\n" +
-                                ") -- temp table helps compare the conflicting time with that of current classes\n" +
-                                "INSERT INTO #tempClassEnrolled (stu_ssn, class_id, course_id, section_num, lec_day, lec_time, di_day, di_time)\n" +
-                                "SELECT N.ssn AS ssn, C.id class_id, CU.id course_id, S.SECTION_NUM, S.LECT_DAYS, S.LECT_START_TIME, S.DI_DAYS, S.DI_STARTTIME\n" +
-                                "FROM CLASS C, SECTION S, COURSE_WITHCLASS CWC, COURSE CU, SECTIONENROLLMENT E, STUDENT N\n" +
-                                "WHERE N.SSN=16 AND N.STUDENT_ID = E.STUDENT_ID AND E.SECTION_ID = S.SECTION_NUM\n" +
-                                "      AND S.CLASS_ID = C.id AND C.id = CWC.CLASS_ID AND CU.id = CWC.COURSE_ID;");
+                        //finally executing query to get all the conflicting courses and their times
+                        rs = statement.executeQuery("SELECT M.section_id, COR.COURSENUMBER AS COURSENUMBER, CL.CLASS_TITLE as CLASS_TITLE FROM #tempClassEnrolled TC\n" +
+                                "JOIN MEETINGS M ON TC.enrolledStartTime = M.start_time AND\n" +
+                                "    TC.enrolledEndTime = M.end_time AND\n" +
+                                "    TC.secEnrolled <> M.section_id\n" +
+                                "JOIN SECTIONENROLLMENT SE ON SE.SECTION_ID = M.section_id\n" +
+                                "JOIN SECTION SC ON SE.SECTION_ID = SC.id\n" +
+                                "JOIN CLASS CL ON CL.id = SC.CLASS_ID\n" +
+                                "JOIN COURSE_WITHCLASS CWC ON CWC.CLASS_ID = CL.id\n" +
+                                "JOIN COURSE COR ON CWC.COURSE_ID = COR.id\n" +
+                                "GROUP BY M.section_id, CL.CLASS_TITLE, COR.COURSENUMBER");
 
-                        rs = statement.executeQuery("SELECT C.CLASS_TITLE, CU.COURSENUMBER, S.SECTION_NUM, S.LECT_DAYS, S.LECT_START_TIME FROM CLASS C, COURSE_WITHCLASS CWC, COURSE CU, SECTION S, #tempClassEnrolled #tce\n" +
-                                "WHERE C.id = S.CLASS_ID AND S.CLASS_ID = CWC.CLASS_ID AND CWC.COURSE_ID = CU.id AND\n" +
-                                "      (#tce.lec_day = S.LECT_DAYS OR #tce.di_day = S.DI_DAYS OR #tce.lec_day = S.DI_DAYS OR #tce.di_day = S.LECT_DAYS) AND\n" +
-                                "      (#tce.lec_time = S.LECT_START_TIME OR #tce.di_time = S.DI_STARTTIME OR #tce.lec_time = S.DI_STARTTIME OR #tce.di_time = S.LECT_START_TIME)\n" +
-                                "GROUP BY S.SECTION_NUM,C.CLASS_TITLE,CU.COURSENUMBER, S.LECT_DAYS, S.LECT_START_TIME;");
-
+                    //Drop temporary tables if they exists
+                    try {
+                        stmt.executeUpdate("IF OBJECT_ID('#tempClassEnrolled', 'U') IS NOT NULL DROP TABLE #tempClassEnrolled;");
+                        stmt.executeUpdate("IF OBJECT_ID('#tempUnenrolled', 'U') IS NOT NULL DROP TABLE #tempUnenrolled;");
+                        stmt.executeUpdate("IF OBJECT_ID('#tempOverlapping', 'U') IS NOT NULL DROP TABLE #tempOverlapping;");
                         stmt.close();
+
+                    } catch (SQLException e) {
+                        e.printStackTrace();
+                    }
             %>
             <table border="1">
                 <tr>
-                    <%--<th>Enrolled_Course</th>--%>
-                    <%--<th>Enrolled_Class</th>--%>
-                    <%--<th>Enrolled_SectionNum</th>--%>
                     <th>Conflicting_Course</th>
                     <th>Conflicting_Class</th>
-                    <th>Conflicting_Section</th>
                 </tr>
                 <%
                     while(rs.next()) {
                 %>
                 <tr>
-                    <%--<td><input type="text" name="enrolled_course" value="<%=rs.getString("enrolled_course")%>" readonly></td>--%>
-                    <%--<td><input type="text" name="enrolled_class" value="<%=rs.getString("enrolled_class")%>" readonly></td>--%>
-                    <%--<td><input type="text" name="enrolled_section" value="<%=rs.getString("enrolled_section")%>" readonly></td>--%>
-                    <td><input type="text" name="conflicting_course" value="<%=rs.getString("COURSENUMBER")%>" readonly></td>
-                    <td><input type="text" name="conflicting_class" value="<%=rs.getString("CLASS_TITLE")%>" readonly></td>
-                    <td><input type="text" name="conflicting_section" value="<%=rs.getString("SECTION_NUM")%>" readonly></td>
+                    <td><%=rs.getString("COURSENUMBER")%></td>
+                    <td><%=rs.getString("CLASS_TITLE")%></td>
                 </tr>
                 <%
                     }
