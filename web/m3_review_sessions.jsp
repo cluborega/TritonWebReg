@@ -104,8 +104,8 @@
 
                                 System.out.println(sectionNumber);
                                 stmt.executeUpdate("DECLARE @date_from DATETIME2, @date_to DATETIME2\n" +
-                                        "SET @date_from = '04/04/2017'\n" +
-                                        "SET @date_to = '04/08/2017';\n" +
+                                        "SET @date_from = '"+start_date+"'\n" +
+                                        "SET @date_to = '"+end_date+"';\n" +
                                         "WITH ##tempDate AS(\n" +
                                         "    SELECT @date_from AS dt\n" +
                                         "    UNION ALL\n" +

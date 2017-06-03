@@ -374,22 +374,23 @@ INSERT INTO CURRENTLYTEACHING(SECTION_ID,FACULTY)VALUES('4','ADAM LEVINE')
 INSERT INTO CURRENTLYTEACHING(SECTION_ID,FACULTY)VALUES('7','TAYLOR SWIFT')
 INSERT INTO CURRENTLYTEACHING(SECTION_ID,FACULTY)VALUES('2','KELLY CLARKSON')
 INSERT INTO CURRENTLYTEACHING(SECTION_ID,FACULTY)VALUES('5','KELLY CLARKSON')
-INSERT INTO TeachingHistory(FACULTY, class_id) VALUES('Justin Bieber', 1);
-INSERT INTO TeachingHistory(FACULTY, class_id) VALUES('Flo Rida', 32);
-INSERT INTO TeachingHistory(FACULTY, class_id) VALUES('Selena Gomez', 3);
-INSERT INTO TeachingHistory(FACULTY, class_id) VALUES('Adele', 24);
-INSERT INTO TeachingHistory(FACULTY, class_id) VALUES('Kelly Clarkson', 2);
-INSERT INTO TeachingHistory(FACULTY, class_id) VALUES('Bjork', 9);
-INSERT INTO TeachingHistory(FACULTY, class_id) VALUES('Bjork', 28);
-INSERT INTO TeachingHistory(FACULTY, class_id) VALUES('Justin Bieber', 12);
-INSERT INTO TeachingHistory(FACULTY, class_id) VALUES('Flo Rida', 14);
-INSERT INTO TeachingHistory(FACULTY, class_id) VALUES('Selena Gomez', 25);
-INSERT INTO TeachingHistory(FACULTY, class_id) VALUES('Taylor Swift', 6);
-INSERT INTO TeachingHistory(FACULTY, class_id) VALUES('Kelly Clarkson', 17);
-INSERT INTO TeachingHistory(FACULTY, class_id) VALUES('Adam Levine', 33);
-INSERT INTO TeachingHistory(FACULTY, class_id) VALUES('Bjork', 22);
-INSERT INTO TeachingHistory(FACULTY, class_id) VALUES('Bjork', 10);
-INSERT INTO TeachingHistory(FACULTY, class_id) VALUES('Kelly Clarkson', 19);
+
+INSERT INTO TeachingHistory(FACULTY, class_id) VALUES('JUSTIN BIEBER', 1);
+INSERT INTO TeachingHistory(FACULTY, class_id) VALUES('FLO RIDA', 43);
+INSERT INTO TeachingHistory(FACULTY, class_id) VALUES('SELENA GOMEZ', 3);
+INSERT INTO TeachingHistory(FACULTY, class_id) VALUES('TAYLOR SWIFT', 8);
+INSERT INTO TeachingHistory(FACULTY, class_id) VALUES('KELLY CLARKSON', 2);
+INSERT INTO TeachingHistory(FACULTY, class_id) VALUES('BJORK', 12);
+INSERT INTO TeachingHistory(FACULTY, class_id) VALUES('BJORK', 37);
+INSERT INTO TeachingHistory(FACULTY, class_id) VALUES('JUSTIN BIEBER', 17);
+INSERT INTO TeachingHistory(FACULTY, class_id) VALUES('KELLY CLARKSON', 23);
+INSERT INTO TeachingHistory(FACULTY, class_id) VALUES('ADAM LEVINE', 45);
+INSERT INTO TeachingHistory(FACULTY, class_id) VALUES('BJORK', 29);
+INSERT INTO TeachingHistory(FACULTY, class_id) VALUES('SELENA GOMEZ', 34);
+INSERT INTO TeachingHistory(FACULTY, class_id) VALUES('BJORK', 11);
+
+
+
 
 
 INSERT INTO COURSECONCERNTRATION (COURSE_ID,DEGREE_ID,CONCERNTRATION_NAME,REQ_UNITS,MINGPA) VALUES ('7','4','DATABASES','4','3')
