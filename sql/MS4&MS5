@@ -65,11 +65,9 @@ BEGIN
 	DROP TABLE #TEMP1
 	DROP TABLE #TEMP2
 END
-Contact GitHub API Training Shop Blog About
-© 2017 GitHub, Inc. Terms Privacy 
 
 
----------------MILESTONE 5 SOLUTION -------------------
+----------------------------------------------------MILESTONE 5 SOLUTION -----------------------------------------
 
 --CREATE CPQG TABLE
 
@@ -103,7 +101,8 @@ JOIN CLASSESTAKEN CT ON CT.CLASS_ID = TH.CLASS_ID
 GROUP BY CO.id, TH.FACULTY,CO.COURSENUMBER,CL.id
 
 
---UPDATE CPQG AND CPG ON INSERT GRADE
+--UPDATE CPQG AND CPG ON INSERT GRADE--------
+
 ALTER TRIGGER cpqg_update_on_insert 
 ON CLASSESTAKEN
 AFTER INSERT AS 
@@ -183,7 +182,8 @@ END
 
 -----------------------------------------------------
 
---UPDATE CPG AND CPG ON UPDATE GRADE
+--UPDATE CPG AND CPG ON UPDATE GRADE------------
+
 ALTER TRIGGER cpqg_update_on_UPDATE 
 ON CLASSESTAKEN
 FOR UPDATE AS 
