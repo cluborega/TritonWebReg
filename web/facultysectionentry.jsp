@@ -93,8 +93,35 @@
                 <tr>
                     <form action="facultysectionentry.jsp" method="get">
                         <input type="hidden" value="insert" name="action">
-                        <th><input value="" name="SECTION_ID" size="10"></th>
-                        <th><input value="" name="FACULTY" size="40" ></th>
+                        <th>
+                            <%
+                                rs = statement.executeQuery("SELECT id AS SECTION_ID, SECTION_NUM FROM SECTION");
+                            %>
+                            <SELECT name = "SECTION_ID">
+                                <%
+                                    while (rs.next()){
+                                %>
+                                <option value="<%=rs.getInt("SECTION_ID")%>"><%=rs.getInt("SECTION_ID")%> </option>
+                                <%
+                                    }
+                                %>
+                            </SELECT>
+                        </th>
+                        <th>
+                            <%
+                                rs = statement.executeQuery("SELECT FACULTY FROM FACULTY");
+                            %>
+                            <SELECT name = "FACULTY">
+                                <%
+                                    while (rs.next()){
+                                %>
+                                <option value="<%=rs.getString("FACULTY")%>"><%=rs.getString("FACULTY")%> </option>
+                                <%
+                                    }
+                                %>
+                            </SELECT>
+                        </th>
+                        <%--<th><input value="" name="FACULTY" size="40" ></th>--%>
                         <th><input type="submit" value="Insert"></th>
                     </form>
                 </tr>

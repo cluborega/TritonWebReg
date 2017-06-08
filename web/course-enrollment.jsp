@@ -51,7 +51,6 @@
                         System.out.println("Connection with db not established.");
                     }
 
-                    try {
                         if (conn != null) {
                             conn.setAutoCommit(false);
                         }
@@ -65,17 +64,18 @@
                         pstmtInsert.setInt(3, Integer.parseInt(request.getParameter("UNITS_TAKING")));
                         pstmtInsert.setString(4, request.getParameter("GRADE_OPTION"));
 
+                    try {
                         int rowCount = pstmtInsert.executeUpdate();
+                    } catch (SQLException e) {
+                        e.printStackTrace();
+                    }
 
-                        if (conn != null) {
+                    if (conn != null) {
                             conn.commit();
                             conn.setAutoCommit(true);
                         }
 
-                    }
-                    catch (SQLException e){
-                        e.printStackTrace();
-                    }
+
                 }
                 else if (action != null && action.equals("update")) {
 
