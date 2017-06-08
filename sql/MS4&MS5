@@ -1,8 +1,9 @@
 -------------MILESTONE 4 SOLUTION---------------------
+
 ---------PART 1 ------------
--- MS4
+
 --Alter or create
-alter TRIGGER check_overlapping_meetings ON WEEKLYMEETING
+Create TRIGGER check_overlapping_meetings ON WEEKLYMEETING
 INSTEAD OF INSERT AS
 BEGIN
   DECLARE @meet_type VARCHAR(40)
@@ -34,6 +35,10 @@ BEGIN
       RAISERROR ('A section at provided time already exists, please enter a different time',16,1);
       RETURN
     END
+    
+    
+    
+    
 ---------PART 2 ------------
 CREATE TRIGGER tb_section_max 
 on SECTIONENROLLMENT 
