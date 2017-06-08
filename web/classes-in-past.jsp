@@ -54,13 +54,18 @@
                     }
 
                     try {
+
+                        System.out.println(request.getParameter("STUDENT_ID"));
+                        System.out.println(request.getParameter("units_taken"));
                         conn.setAutoCommit(false);
                         PreparedStatement pstmtInsert = conn.prepareStatement(
-                                "INSERT INTO CLASSESTAKEN (STUDENT_ID, CLASS_ID, grade_received) " +
-                                        "VALUES (?, ?, ?)");
+                                "INSERT INTO CLASSESTAKEN (STUDENT_ID, CLASS_ID, GRADE_OPT,UNITS_TAKEN,GRADE_RECEIVED) " +
+                                        "VALUES (?, ?, ?,?,?)");
                         pstmtInsert.setString(1, request.getParameter("STUDENT_ID"));
                         pstmtInsert.setInt(2, Integer.parseInt(request.getParameter("CLASS_ID")));
-                        pstmtInsert.setString(3, request.getParameter("GRADE_RECEIVED"));
+                        pstmtInsert.setString(3, request.getParameter("GRADE_TYPE"));
+                        pstmtInsert.setInt(4, Integer.parseInt(request.getParameter("units_taken")));
+                        pstmtInsert.setString(5, request.getParameter("GRADE_RECEIVED"));
 
                         int rowCount = pstmtInsert.executeUpdate();
                         conn.commit();
@@ -78,10 +83,10 @@
                     try {
                         conn.setAutoCommit(false);
                         PreparedStatement pstmtUpdate = conn.prepareStatement(
-                                "UPDATE CLASSESTAKEN SET GRADE_RECEIVED =? WHERE id = ?"); //AND CLASS_ID = ?");
+                                "UPDATE CLASSESTAKEN SET GRADE_RECEIVED =? WHERE STUDENT_ID = ? AND CLASS_ID = ?");
                         pstmtUpdate.setString(1, request.getParameter("GRADE_RECEIVED"));
-                        pstmtUpdate.setString(2, request.getParameter("ct_id"));
-//                        pstmtUpdate.setString(3, request.getParameter("CLASS_ID"));
+                        pstmtUpdate.setString(2, request.getParameter("STUDENT_ID"));
+                        pstmtUpdate.setString(3, request.getParameter("CLASS_ID"));
                         int rowCount = pstmtUpdate.executeUpdate();
                         conn.commit();
                         conn.setAutoCommit(true);
@@ -95,9 +100,11 @@
 
 
             <table border="1">
-                <th>
+                <tr>
                     <th>Student ID</th>
                     <th>Class</th>
+                    <th>Grade_type</th>
+                    <th>units</th>
                     <th>Grade Received</th>
                     <th colspan="2">Action</th>
                 </tr>
@@ -107,7 +114,7 @@
                         <td> <SELECT name = "STUDENT_ID" required>
                             <% while (rs_utility.next()){
                             %>
-                            <option value=""> <%= rs_utility.getString("STUDENT_ID")%></option>
+                            <option value="<%= rs_utility.getString("STUDENT_ID")%>"> <%= rs_utility.getString("STUDENT_ID")%></option>
                             <%
                                 }
                             %>
@@ -117,7 +124,7 @@
                             rs_utility.close();
                             rs_utility = stmt.executeQuery("SELECT * FROM CLASS");
                         %>
-                        <td><SELECT name = "STUDENT_ID" required>
+                        <td><SELECT name = "CLASS_ID" required>
                             <% while (rs_utility.next()){
                             %>
                             <option value="<%= rs_utility.getString("id")%>"> <%= rs_utility.getString("CLASS_TITLE")+" "+rs_utility.getString("QUARTER")+" "+rs_utility.getString("CLASS_YEAR")%></option>
@@ -125,19 +132,28 @@
                                 }
                             %>
                         </SELECT></td>
+                        <td><SELECT name = "GRADE_TYPE" required>
+                            <option disabled selected>Select Grade Type</option>
+                            <option value="LETTER">LETTER</option>
+                            <option value="S/U">S/U</option>
+                        </SELECT></td>
+                        <td><INPUT TYPE="number", value='' NAME="units_taken" required></td>
                         <td><select name="GRADE_RECEIVED" required>
                                 <option disabled selected >Select Grade</option>
-                                <option value="GRADEA+">A+</option>
-                                <option value="GRADEA">A</option>
-                                <option value="GRADEA-">A-</option>
-                                <option value="GRADEB+">B+</option>
-                                <option value="GRADEB">B</option>
-                                <option value="GRADEB-">B-</option>
-                                <option value="GRADEC+">C+</option>
-                                <option value="GRADEC">C</option>
-                                <option value="GRADEC-">C-</option>
-                                <option value="GRADED">D</option>
-                                <option value="GRADEF">F</option>
+                                <option value="A+">A+</option>
+                                <option value="A">A</option>
+                                <option value="A-">A-</option>
+                                <option value="B+">B+</option>
+                                <option value="B">B</option>
+                                <option value="B-">B-</option>
+                                <option value="C+">C+</option>
+                                <option value="C">C</option>
+                                <option value="C-">C-</option>
+                                <option value="D">D</option>
+                                <option value="F">F</option>
+                            <option value="S">C-</option>
+                            <option value="U">D</option>
+
                             </select>
                         </td>
                         <td><input type="submit" value="Insert"></td>
@@ -166,11 +182,11 @@
                         <input type="hidden" value="update" name="action">
                         <%-- Get the ID --%>
                         <td>
-                            <input name="<%= rs.getString("STUDENT_ID") %>" hidden><%= rs.getString("STUDENT_ID") %> </input>
+                            <input type="text" name="STUDENT_ID" value="<%= rs.getString("STUDENT_ID")%>"> </input>
                         </td>
 
                         <%-- Get the FIRSTNAME --%>
-                        <td><input value="<%= rs.getInt("ct_id") %>" hidden>
+                        <td><input value="<%= rs.getInt("ct_id") %>"  name="CLASS_ID" hidden >
                             <%= rs.getString("CLASS_TITLE") +" "+rs.getString("QUARTER")+ " "+rs.getString("CLASS_YEAR") %>
                             </input>
                         </td>
