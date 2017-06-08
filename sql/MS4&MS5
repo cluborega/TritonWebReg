@@ -52,7 +52,7 @@ Begin
 	SELECT @curr_enrollment = COUNT(*) FROM SECTIONENROLLMENT WHERE SECTION_ID=@target_sec;
 	SELECT @max_enrollment = SECTION_MAX FROM SECTION WHERE SECTION_NUM = @target_sec;
 	
-	if (@curr_enrollment=@max_enrollment)
+	if (@curr_enrollment>=@max_enrollment)
 	Begin
 		Raiserror('Section is full',16,1)
 		return

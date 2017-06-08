@@ -55,6 +55,7 @@
                         if (conn != null) {
                             conn.setAutoCommit(false);
                         }
+                        System.out.println(request.getParameter("SECTION_ID"));
                         PreparedStatement pstmtInsert = conn != null ? conn.prepareStatement(
                                 "INSERT INTO SECTIONENROLLMENT (STUDENT_ID, SECTION_ID, UNITS_TAKING, GRADE_OPTION) " +
                                         "VALUES (?, ?, ?, ?)") : null;
@@ -96,7 +97,7 @@
                 ResultSet studentRset = null;
                 try {
 //                    studentRset = getStudentsStmt.executeQuery("SELECT STUDENT_ID FROM STUDENT");
-                    rs = statement != null ? statement.executeQuery("SELECT * FROM SECTIONENROLLMENT ") : null;  //TODO write query to retrieve enrollment info
+                    rs = statement != null ? statement.executeQuery("SELECT * FROM STUDENT") : null;  //TODO write query to retrieve enrollment info
                 } catch (SQLException e) {
                     e.printStackTrace();
                 }
@@ -114,24 +115,32 @@
                         <th><select name="STUDENT_ID">
                             <%
                                 if (rs != null){
-                                    System.out.println("student rset is not null "+ rs.getString("STUDENT_ID"));
+//                                    System.out.println("student rset is not null "+ rs.getString("STUDENT_ID"));
                                 while (rs.next()) {
                             %>
-                            <option><%
-                                try{
-                                    rs.getString("STUDENT_ID");
-                                }
-                                catch(Exception e){
-                                    e.printStackTrace();
-                                }
-                            %></option>
+                            <option value ="<%=rs.getString("STUDENT_ID")%>"><%=rs.getString("STUDENT_ID")%></option>
                             <%
                                 }
                                 }
                             %>
                         </select>
                         </th>
-                        <th><input value="" name="SECTION_ID" size="10"></th>
+                        <th>
+                            <%
+//                                rs.close();
+                                rs = statement.executeQuery("SELECT id AS SECTION_ID, SECTION_NUM FROM SECTION");
+                            %>
+                            <select name = "SECTION_ID">
+                                <%
+                                    while (rs.next()) {
+                                %>
+
+                                <option value="<%=rs.getInt("SECTION_ID")%>" ><%= rs.getInt("SECTION_NUM")%> </option>
+                                <%
+                                    }
+                                %>
+                            </select>
+                        </th>
                         <th><input value="" name="UNITS_TAKING" size="10"></th>
                         <td><select name="GRADE_OPTION" required>
                             <option disabled selected>Grade Option</option>
