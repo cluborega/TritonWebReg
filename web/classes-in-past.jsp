@@ -43,6 +43,8 @@
 
             %>
             <%
+                Statement stmt = conn.createStatement();
+                ResultSet rs_utility = stmt.executeQuery("SELECT STUDENT_ID FROM STUDENT");
                 String action = request.getParameter("action");
                 // Check if an insertion is requested
                 if (action != null && action.equals("insert")) {
@@ -54,10 +56,10 @@
                     try {
                         conn.setAutoCommit(false);
                         PreparedStatement pstmtInsert = conn.prepareStatement(
-                                "INSERT INTO CLASSESTAKEN (STUDENT_ID, SECTIONENROLLMENT_ID, grade_received) " +
+                                "INSERT INTO CLASSESTAKEN (STUDENT_ID, CLASS_ID, grade_received) " +
                                         "VALUES (?, ?, ?)");
                         pstmtInsert.setString(1, request.getParameter("STUDENT_ID"));
-                        pstmtInsert.setInt(2, Integer.parseInt(request.getParameter("SECTIONENROLLMENT_ID")));
+                        pstmtInsert.setInt(2, Integer.parseInt(request.getParameter("CLASS_ID")));
                         pstmtInsert.setString(3, request.getParameter("GRADE_RECEIVED"));
 
                         int rowCount = pstmtInsert.executeUpdate();
@@ -69,24 +71,60 @@
                     }
                 }
                 else if (action != null && action.equals("update")) {
+                    if (conn == null) {
+                        System.out.println("Connection with db not established.");
+                    }
 
-                    //TODO Update and delete Milestone 3
+                    try {
+                        conn.setAutoCommit(false);
+                        PreparedStatement pstmtUpdate = conn.prepareStatement(
+                                "UPDATE CLASSESTAKEN SET GRADE_RECEIVED =? WHERE id = ?"); //AND CLASS_ID = ?");
+                        pstmtUpdate.setString(1, request.getParameter("GRADE_RECEIVED"));
+                        pstmtUpdate.setString(2, request.getParameter("ct_id"));
+//                        pstmtUpdate.setString(3, request.getParameter("CLASS_ID"));
+                        int rowCount = pstmtUpdate.executeUpdate();
+                        conn.commit();
+                        conn.setAutoCommit(true);
+                    }
+                    catch (SQLException e){
+                        e.printStackTrace();
+                    }
+
                 }
             %>
 
 
             <table border="1">
-                <tr>
+                <th>
                     <th>Student ID</th>
-                    <th>Section Num</th>
+                    <th>Class</th>
                     <th>Grade Received</th>
                     <th colspan="2">Action</th>
                 </tr>
                 <tr>
                     <form action="classes-in-past.jsp" method="post">
                         <input type="hidden" value="insert" name="action">
-                        <td><input value="" name="STUDENT_ID" size="10" required></td>
-                        <td><input value="" name="SECTIONENROLLMENT_ID" size="10" required></td>
+                        <td> <SELECT name = "STUDENT_ID" required>
+                            <% while (rs_utility.next()){
+                            %>
+                            <option value=""> <%= rs_utility.getString("STUDENT_ID")%></option>
+                            <%
+                                }
+                            %>
+                        </SELECT>
+                        </td>
+                        <%
+                            rs_utility.close();
+                            rs_utility = stmt.executeQuery("SELECT * FROM CLASS");
+                        %>
+                        <td><SELECT name = "STUDENT_ID" required>
+                            <% while (rs_utility.next()){
+                            %>
+                            <option value="<%= rs_utility.getString("id")%>"> <%= rs_utility.getString("CLASS_TITLE")+" "+rs_utility.getString("QUARTER")+" "+rs_utility.getString("CLASS_YEAR")%></option>
+                            <%
+                                }
+                            %>
+                        </SELECT></td>
                         <td><select name="GRADE_RECEIVED" required>
                                 <option disabled selected >Select Grade</option>
                                 <option value="GRADEA+">A+</option>
@@ -110,7 +148,8 @@
                     Statement statement = conn.createStatement();
                     ResultSet rs = null;
                     try {
-                        rs = statement.executeQuery("SELECT * FROM CLASSESTAKEN ");  //TODO write query to retrieve enrollment info
+                        rs = statement.executeQuery("SELECT ct.id AS ct_id, ct.STUDENT_ID AS STUDENT_ID, cl.CLASS_TITLE AS CLASS_TITLE, cl.QUARTER AS QUARTER, cl.CLASS_YEAR AS CLASS_YEAR, ct.GRADE_RECEIVED AS GRADE_RECEIVED FROM CLASSESTAKEN ct\n" +
+                                "JOIN CLASS cl ON ct.CLASS_ID= cl.id;");  //TODO write query to retrieve enrollment info
                     } catch (SQLException e) {
                         System.err.println("Result set exception classes-in-past jsp");
                         e.printStackTrace();
@@ -127,16 +166,14 @@
                         <input type="hidden" value="update" name="action">
                         <%-- Get the ID --%>
                         <td>
-                            <input value="<%= rs.getString("STUDENT_ID") %>"
-                                   name="STUDENT_ID" size="10">
+                            <input name="<%= rs.getString("STUDENT_ID") %>" hidden><%= rs.getString("STUDENT_ID") %> </input>
                         </td>
 
                         <%-- Get the FIRSTNAME --%>
-                        <td>
-                            <input value="<%= rs.getInt("SECTIONENROLLMENT_ID") %>"
-                                   name="SECTIONENROLLMENT_ID" size="10">
+                        <td><input value="<%= rs.getInt("ct_id") %>" hidden>
+                            <%= rs.getString("CLASS_TITLE") +" "+rs.getString("QUARTER")+ " "+rs.getString("CLASS_YEAR") %>
+                            </input>
                         </td>
-
                         <%-- Get the LASTNAME --%>
                         <td>
                             <input value="<%= rs.getString("GRADE_RECEIVED") %>"
